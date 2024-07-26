@@ -6,17 +6,16 @@ import java.lang.invoke.MethodHandle
 import java.lang.invoke.VarHandle
 
 @JvmInline
-public value class JSCFunctionListEntry_field_u(
+public value class JSCFunctionListEntryValue(
     public val `$mem`: MemorySegment,
 ) {
     public var func: JSCFunctionListFuncEntry
-        get() =
-            JSCFunctionListFuncEntry(
-                funcHandle.invokeExact(
-                    this.`$mem`,
-                    0L
-                ) as MemorySegment
-            )
+        get() = JSCFunctionListFuncEntry(
+            funcHandle.invokeExact(
+                this.`$mem`,
+                0L
+            ) as MemorySegment
+        )
         set(`value`) {
             MemorySegment.copy(
                 value.`$mem`, 0L, this.func.`$mem`, 0L,
@@ -40,13 +39,12 @@ public value class JSCFunctionListEntry_field_u(
         }
 
     public var alias: JSCFunctionListAliasEntry
-        get() =
-            JSCFunctionListAliasEntry(
-                aliasHandle.invokeExact(
-                    this.`$mem`,
-                    0L
-                ) as MemorySegment
-            )
+        get() = JSCFunctionListAliasEntry(
+            aliasHandle.invokeExact(
+                this.`$mem`,
+                0L
+            ) as MemorySegment
+        )
         set(`value`) {
             MemorySegment.copy(
                 value.`$mem`, 0L, this.alias.`$mem`, 0L,
@@ -108,7 +106,7 @@ public value class JSCFunctionListEntry_field_u(
             ValueLayout.JAVA_INT.withName("i32"),
             ValueLayout.JAVA_LONG.withName("i64"),
             ValueLayout.JAVA_DOUBLE.withName("f64"),
-        ).withName("JSCFunctionListEntry_field_u")
+        ).withName("JSCFunctionListEntryValue")
 
         @JvmField
         public val funcHandle: MethodHandle =
@@ -139,7 +137,7 @@ public value class JSCFunctionListEntry_field_u(
         public val f64Handle: VarHandle = layout.varHandle(MemoryLayout.PathElement.groupElement("f64"))
 
         @JvmStatic
-        public fun allocate(alloc: SegmentAllocator): JSCFunctionListEntry_field_u =
-            JSCFunctionListEntry_field_u(alloc.allocate(layout))
+        public fun allocate(alloc: SegmentAllocator): JSCFunctionListEntryValue =
+            JSCFunctionListEntryValue(alloc.allocate(layout))
     }
 }

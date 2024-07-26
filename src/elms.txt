@@ -266,8 +266,8 @@ JSModuleDef
 JSCFunctionListFuncEntry
 JSCFunctionListGetSetEntry
 JSCFunctionListAliasEntry
-JSCFunctionListPropListEntry
 JSCFunctionListEntry
+JSCFunctionListPropListEntry
 
 
 # enums

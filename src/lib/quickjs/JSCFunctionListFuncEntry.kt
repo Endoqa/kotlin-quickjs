@@ -2,6 +2,7 @@
 package lib.quickjs
 
 import java.lang.foreign.*
+import java.lang.invoke.MethodHandle
 import java.lang.invoke.VarHandle
 
 @JvmInline
@@ -51,8 +52,8 @@ public value class JSCFunctionListFuncEntry(
             layout.varHandle(MemoryLayout.PathElement.groupElement("cproto"))
 
         @JvmField
-        public val cfuncHandle: VarHandle =
-            layout.varHandle(MemoryLayout.PathElement.groupElement("cfunc"))
+        public val cfuncHandle: MethodHandle =
+            layout.sliceHandle(MemoryLayout.PathElement.groupElement("cfunc"))
 
         @JvmStatic
         public fun allocate(alloc: SegmentAllocator): JSCFunctionListFuncEntry =

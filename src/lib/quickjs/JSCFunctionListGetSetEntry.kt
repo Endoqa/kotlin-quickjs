@@ -2,7 +2,7 @@
 package lib.quickjs
 
 import java.lang.foreign.*
-import java.lang.invoke.VarHandle
+import java.lang.invoke.MethodHandle
 
 @JvmInline
 public value class JSCFunctionListGetSetEntry(
@@ -38,10 +38,12 @@ public value class JSCFunctionListGetSetEntry(
         ).withName("JSCFunctionListGetSetEntry")
 
         @JvmField
-        public val getHandle: VarHandle = layout.varHandle(MemoryLayout.PathElement.groupElement("get"))
+        public val getHandle: MethodHandle =
+            layout.sliceHandle(MemoryLayout.PathElement.groupElement("get"))
 
         @JvmField
-        public val setHandle: VarHandle = layout.varHandle(MemoryLayout.PathElement.groupElement("set"))
+        public val setHandle: MethodHandle =
+            layout.sliceHandle(MemoryLayout.PathElement.groupElement("set"))
 
         @JvmStatic
         public fun allocate(alloc: SegmentAllocator): JSCFunctionListGetSetEntry =

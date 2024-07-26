@@ -2,6 +2,7 @@
 package lib.quickjs
 
 import java.lang.foreign.*
+import java.lang.invoke.MethodHandle
 import java.lang.invoke.VarHandle
 
 @JvmInline
@@ -32,15 +33,15 @@ public value class JSCFunctionListEntry(
             magicHandle.set(this.`$mem`, 0L, value)
         }
 
-    public var u: JSCFunctionListEntry_field_u
-        get() = JSCFunctionListEntry_field_u(
-            uHandle.invokeExact(this.`$mem`, 0L)
-                    as MemorySegment
+    public var u: JSCFunctionListEntryValue
+        get() = JSCFunctionListEntryValue(
+            uHandle.invokeExact(this.`$mem`, 0L) as
+                    MemorySegment
         )
         set(`value`) {
             MemorySegment.copy(
                 value.`$mem`, 0L, this.u.`$mem`, 0L,
-                JSCFunctionListEntry_field_u.layout.byteSize()
+                JSCFunctionListEntryValue.layout.byteSize()
             )
         }
 
@@ -56,7 +57,7 @@ public value class JSCFunctionListEntry(
             ValueLayout.JAVA_BYTE.withName("def_type"),
             ValueLayout.JAVA_SHORT.withName("magic"),
             MemoryLayout.paddingLayout(4),
-            JSCFunctionListEntry_field_u.layout.withName("u"),
+            JSCFunctionListEntryValue.layout.withName("u"),
         ).withName("JSCFunctionListEntry")
 
         @JvmField
@@ -76,7 +77,8 @@ public value class JSCFunctionListEntry(
             layout.varHandle(MemoryLayout.PathElement.groupElement("magic"))
 
         @JvmField
-        public val uHandle: VarHandle = layout.varHandle(MemoryLayout.PathElement.groupElement("u"))
+        public val uHandle: MethodHandle =
+            layout.sliceHandle(MemoryLayout.PathElement.groupElement("u"))
 
         @JvmStatic
         public fun allocate(alloc: SegmentAllocator): JSCFunctionListEntry =
